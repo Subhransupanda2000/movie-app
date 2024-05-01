@@ -1,6 +1,7 @@
 package com.example.movie.movieapp.Service;
 
 import com.example.movie.movieapp.Entity.MovieEntity;
+import com.example.movie.movieapp.Model.Movie;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,13 +10,13 @@ import java.util.Optional;
 @Service
 public interface MovieService {
 
-    public MovieEntity create(MovieEntity movieEntity);
+     Movie create(Movie movie);
 
-    List<MovieEntity> allMovie();
+    List<Movie> allMovie();
 
-    MovieEntity removeMovie(String id);
+    Movie removeMovie(String id);
 
-    MovieEntity updateMovie( String id,MovieEntity movieEntity);
+    Movie updateMovie( String id,Movie movie);
 
     Optional<MovieEntity> movieById(String id);
 }
