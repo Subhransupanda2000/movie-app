@@ -3,6 +3,11 @@ package com.example.movie.movieapp.Service;
 import com.example.movie.movieapp.Entity.MovieEntity;
 import com.example.movie.movieapp.Model.Movie;
 import com.example.movie.movieapp.Repository.MovieRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +19,8 @@ import java.util.Optional;
 public class MovieServiceImpl implements MovieService{
     @Autowired
     private MovieRepository movieRepository;
+    @Autowired
+    private EntityManager entityManager;
 
     @Override
     public Movie create(Movie movie) {
@@ -49,9 +56,17 @@ public class MovieServiceImpl implements MovieService{
     }
 
     @Override
-    public Optional<MovieEntity> movieById(String id) {
-        Optional<MovieEntity> entity=movieRepository.findById(id);
-        return entity;
+    public List<Movie> movieById(String id) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<MovieEntity> criteriaQuery = criteriaBuilder.createQuery(MovieEntity.class);
+        Root<MovieEntity> root = criteriaQuery.from(MovieEntity.class);
+
+        Predicate predicate = criteriaBuilder.equal(root.get("id"), id);
+        criteriaQuery.where(predicate);
+
+        List<MovieEntity> movieEntities = entityManager.createQuery(criteriaQuery).getResultList();
+        List<Movie> movieList = movieEntities.stream().map(e -> new Movie().fromEntity(e)).toList();
+        return movieList;
     }
 
 }

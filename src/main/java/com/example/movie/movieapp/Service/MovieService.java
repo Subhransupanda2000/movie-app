@@ -18,5 +18,5 @@ public interface MovieService {
 
     Movie updateMovie( String id,Movie movie);
 
-    Optional<MovieEntity> movieById(String id);
+    List<Movie> movieById(String id);
 }

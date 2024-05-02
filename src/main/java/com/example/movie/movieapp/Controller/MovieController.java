@@ -1,13 +1,10 @@
 package com.example.movie.movieapp.Controller;
-import com.example.movie.movieapp.Entity.MovieEntity;
 import com.example.movie.movieapp.Model.Movie;
 import com.example.movie.movieapp.Service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-
 @RequestMapping("/movies")
 @RestController
 public class MovieController {
@@ -34,7 +31,7 @@ public class MovieController {
         return movieService.updateMovie(id,movie);
     }
     @GetMapping("/{id}")
-    public Optional<MovieEntity> movieById(@PathVariable String id)
+    public List<Movie> movieById(@PathVariable String id)
     {
         return movieService.movieById(id);
     }
